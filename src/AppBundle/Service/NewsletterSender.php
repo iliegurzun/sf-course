@@ -28,7 +28,7 @@ class NewsletterSender
     {
         $yaml = new Parser();
         $values = $yaml->parse(file_get_contents(__DIR__ . '/../Resources/config/newsletter.yml'));
-        foreach($values['newsletter']['email_list'] as $value) {
+        foreach($values['newsletter']['to'] as $value) {
             if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                 throw new \Exception('Invalid email address');
             }

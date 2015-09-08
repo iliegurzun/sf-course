@@ -1,0 +1,47 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * NewsletterEmail
+ *
+ * @ORM\Table(name="newsletter_email")
+ * @ORM\Entity
+ */
+class NewsletterEmail
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="NewsletterCampaign", inversedBy="emails")
+     * @ORM\JoinColumn(name="campaign_id", referencedColumnName="id")
+     **/
+    private $campaign;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Email", inversedBy="campaigns")
+     * @ORM\JoinColumn(name="email_id", referencedColumnName="id")
+     **/
+    private $email;
+}
+

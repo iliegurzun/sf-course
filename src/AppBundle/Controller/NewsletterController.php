@@ -8,6 +8,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\NewsletterCampaign;
 use AppBundle\Service\NewsletterSender;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,11 @@ class NewsletterController
      */
     public $newsletterSender;
     /**
+     * @DI\Inject("doctrine.orm.entity_manager")
+     * @var
+     */
+    public $em;
+    /**
      * @Route("/newsletter/send", name="newsletter_send")
      * @return Response
      */
@@ -32,6 +38,14 @@ class NewsletterController
         $resp = $this->newsletterSender->sendEmail();
 
         return new Response($resp);
+    }
+
+    public function saveAction()
+    {
+        $newsletter = new NewsletterCampaign();
+        $newsletter->setName('testing');
+        $this->em->persist($newsletter);
+        $this->em->flush();
     }
 
 }

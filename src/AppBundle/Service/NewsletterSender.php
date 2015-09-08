@@ -43,9 +43,9 @@ class NewsletterSender
         return $values;
     }
 
-    private function validateEmails($values)
+    protected function validateEmails($values)
     {
-        foreach($values['newsletter']['to'] as $value) {
+        foreach($values as $value) {
             if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
                 throw new \Exception('Invalid email address');
             }
@@ -68,7 +68,7 @@ class NewsletterSender
     public function sendEmail()
     {
         $values = $this->getValuesFromYaml();
-        $this->validateEmails($values);
+        $this->validateEmails($values['newsletter']['to']);
         $message = $this->generateEmail($values);
         /** @var \Swift_Mailer $resp */
         $resp = $this->mailer->send($message);
